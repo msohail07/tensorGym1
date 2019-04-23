@@ -180,11 +180,36 @@ function detectPoseInRealTime(video, net) {
     // For each pose (i.e. person) detected in an image, loop through the poses
     // and draw the resulting skeleton and keypoints if over certain confidence
     // scores
-    // console.log(" ------- poses -------- ")
-    // console.log(poses)
-    // console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^ ")
-    document.getElementById('posesArray').innerHTML = poses
+    let str = ""
+    // poses.forEach((score, keypoints) => {
+    //   keypoints.forEach((kp) => {
+    //     str = str.concat(kp.toString() + "\n")
+    //   })
+    // })
+    document.getElementById('0_x').innerHTML = "nose X HERE"
     poses.forEach(({score, keypoints}) => {
+
+      let i = -0
+      let i_str = i.toString()
+      let x = i_str + "_x"
+      let y = i_str + "_y"
+      let s = i_str + "_score"
+      document.getElementById(x).innerHTML = Number.parseFloat(keypoints[0].position.x).toFixed(2)
+      document.getElementById(y).innerHTML = Number.parseFloat(keypoints[0].position.y).toFixed(2)
+      document.getElementById(s).innerHTML = Number.parseFloat(keypoints[0].score).toFixed(4)
+
+      // for (let i=0; i < keypoints.length; i++) {
+      //   let i_str = i.toString()
+      //   let x = i_str + "_x"
+      //   let y = i_str + "_y"
+      //   let score = i_str + "_score"
+      //   document.getElementById(x).innerHTML = keypoints[0].position.x
+      //   document.getElementById(y).innerHTML = keypoints[0].position.y
+      //   document.getElementById(score).innerHTML = keypoints[0].score
+
+
+      // }
+
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
@@ -193,10 +218,8 @@ function detectPoseInRealTime(video, net) {
           drawSkeleton(keypoints, minPartConfidence, ctx);
         }
       }
-    });
 
-    // End monitoring code for frames per second
-    // stats.end();
+    });
 
     requestAnimationFrame(poseDetectionFrame);
   }
