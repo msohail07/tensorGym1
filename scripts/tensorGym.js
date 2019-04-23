@@ -1,7 +1,11 @@
+// import * as utils from './utils.js'
+import {drawPoint} from './utils.js'
+
 var imageScaleFactor = 0.5;
 var outputStride = 16;
 var flipHorizontal = false;
 
+console.log(drawPoint)
 posenet.load().then((net) => console.log(net))
 
 var video = document.querySelector("#video");
