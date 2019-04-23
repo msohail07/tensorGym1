@@ -1,5 +1,4 @@
-const color = 'aqua';
-const boundingBoxColor = 'red';
+const color = 'red';
 const lineWidth = 2;
 
 function toTuple({y, x}) {
