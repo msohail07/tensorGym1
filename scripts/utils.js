@@ -1,4 +1,4 @@
-const color = 'red';
+const color = 'greenyellow';
 const lineWidth = 2;
 
 function toTuple({y, x}) {
