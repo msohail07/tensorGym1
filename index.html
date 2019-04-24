@@ -26,15 +26,9 @@
       <canvas id="output" />
     </div>
 
-    <p>Select workout</p>
-    <select>
-      <optgroup label="Core">
-        <option value="plank">Plank</option>
-      </optgroup>
-      <optgroup label="Legs">
-        <option value="squat">Squat</option>
-      </optgroup>
-    </select>
+    <canvas id="feedback">YOUR FORM</canvas>
+
+
 
     <div>
       <audio id='buzzer'>
@@ -42,6 +36,27 @@
         Your browser does not support the audio element.
       </audio>
     </div>
+
+    <p>Select workout</p>
+    <form action="#" method="post" class="exerciseForm" id="exerciseForm">
+
+      <p>Select an exercise:</p>
+      <p>
+          <label><input type="radio" name="exercise" value="squat" /> Squat</label>
+          <label><input type="radio" name="exercise" value="plank" /> Plank </label>
+      </p>
+  </form>
+
+    <!-- <input type="radio" name="exercise" value="plank"> Plank<br>
+    <input type="radio" name="exercise" value="squat"> Squat<br> -->
+    <!-- <select name="cars">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="fiat">Fiat</option>
+      <option value="audi">Audi</option>
+    </select> -->
+
+    <!-- JS: ''' document.querySelector('input[name="exercise"]:checked').value; '''' -->
 
     <!-- <p id="posesArray">Poses array here:</p> -->
     <table border="5">
@@ -155,7 +170,18 @@
       </tr>
     </table>
 
+    <!-- <form>
+      <select style="-webkit-appearnace: menulist;">
+        <option value="books">Books</option>
+        <option value="html">HTML</option>
+        <option value="css">CSS</option>
+        <option value="php">PHP</option>
+        <option value="js">JavaScript</option>
+      </select>
+    </form> -->
+
     <button id="buzzerButton">Play buzz</button>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>

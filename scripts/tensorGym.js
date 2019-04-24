@@ -1,5 +1,7 @@
 // import * as utils from './utils.js'
 import {drawKeypoints, drawSkeleton} from './utils.js'
+import {poorFormFeedback, neutralFormFeedback} from './feedbackScripts.js'
+// import {getRadioVal} from './utils.js'
 
 var imageScaleFactor = 0.5; // A number between 0.2 and 1.0. Defaults to 0.50. What to scale the image by before feeding it through the network. Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.
 var outputStride = 16; //  the desired stride for the outputs when feeding the image through the model. Must be 32, 16, 8. Defaults to 16. The higher the number, the faster the performance but slower the accuracy, and visa versa.
@@ -32,8 +34,26 @@ function isMobile() {
   return isAndroid() || isiOS();
 }
 
+function getRadioVal(form, name) {
+  var val;
+  // get list of radio buttons with specified name
+  var radios = form.elements[name];
+
+  // loop through list of radio buttons
+  for (var i=0, len=radios.length; i<len; i++) {
+      if ( radios[i].checked ) { // radio checked?
+          val = radios[i].value; // if so, hold its value in val
+          break; // and break out of for loop
+      }
+  }
+  return val; // return value of checked radio or undefined if none checked
+}
+
+poorFormFeedback()
+neutralFormFeedback()
+
 /**
- * Loads a the camera to be used in the demo
+ * Loads camera to be used in the demo
  *
  */
 async function setupCamera() {
@@ -91,6 +111,7 @@ const guiState = {
   net: null,
 };
 
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -105,6 +126,8 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
+
+    console.log(getRadioVal(document.getElementById('exerciseForm'), 'exercise'))
 
     // Scale an image down to a certain factor. Too large of an image will slow
     // down the GPU

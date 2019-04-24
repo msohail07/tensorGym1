@@ -5,6 +5,21 @@ function toTuple({y, x}) {
   return [y, x];
 }
 
+// export function getRadioVal(form, name) {
+//     var val;
+//     // get list of radio buttons with specified name
+//     var radios = form.elements[name];
+
+//     // loop through list of radio buttons
+//     for (var i=0, len=radios.length; i<len; i++) {
+//         if ( radios[i].checked ) { // radio checked?
+//             val = radios[i].value; // if so, hold its value in val
+//             break; // and break out of for loop
+//         }
+//     }
+//     return val; // return value of checked radio or undefined if none checked
+// }
+
 export function drawPoint(ctx, y, x, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -15,7 +30,7 @@ export function drawPoint(ctx, y, x, r, color) {
 /**
  * Draws a line on a canvas, i.e. a joint
  */
-export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
   ctx.beginPath();
   ctx.moveTo(ax * scale, ay * scale);
   ctx.lineTo(bx * scale, by * scale);
