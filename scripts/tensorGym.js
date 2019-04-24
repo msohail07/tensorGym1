@@ -5,8 +5,8 @@ var imageScaleFactor = 0.5; // A number between 0.2 and 1.0. Defaults to 0.50. W
 var outputStride = 16; //  the desired stride for the outputs when feeding the image through the model. Must be 32, 16, 8. Defaults to 16. The higher the number, the faster the performance but slower the accuracy, and visa versa.
 var flipHorizontal = false; // Defaults to false. If the poses should be flipped/mirrored horizontally. This should be set to true for videos where the video is by default flipped horizontally (i.e. a webcam), and you want the poses to be returned in the proper orientation.
 
-const videoWidth = 600;
-const videoHeight = 500;
+const videoWidth = 800;
+const videoHeight = 700;
 
 // posenet.load().then((net) => console.log(net))
 
@@ -91,19 +91,6 @@ const guiState = {
   net: null,
 };
 
-
-// var video = document.querySelector("#video");
-
-// if (navigator.mediaDevices.getUserMedia) {
-//   navigator.mediaDevices.getUserMedia({ video: true })
-//     .then(function (stream) {
-//       video.srcObject = stream;
-//     })
-//     .catch(function (err) {
-//       console.log("Something went wrong!");
-//     });
-// }
-
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -118,19 +105,6 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
-    // if (guiState.changeToArchitecture) {
-    //   // Important to purge variables and free up GPU memory
-    //   guiState.net.dispose();
-
-    //   // Load the PoseNet model weights for either the 0.50, 0.75, 1.00, or 1.01
-    //   // version
-    //   guiState.net = await posenet.load(+guiState.changeToArchitecture);
-
-    //   guiState.changeToArchitecture = null;
-    // }
-
-    // Begin monitoring code for frames per second
-    // stats.begin();
 
     // Scale an image down to a certain factor. Too large of an image will slow
     // down the GPU
@@ -146,26 +120,6 @@ function detectPoseInRealTime(video, net) {
 
     minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
     minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
-    // switch (guiState.algorithm) {
-    //   case 'single-pose':
-    //     const pose = await guiState.net.estimateSinglePose(
-    //         video, imageScaleFactor, flipHorizontal, outputStride);
-    //     poses.push(pose);
-
-    //     minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
-    //     minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
-    //     break;
-    //   case 'multi-pose':
-    //     poses = await guiState.net.estimateMultiplePoses(
-    //         video, imageScaleFactor, flipHorizontal, outputStride,
-    //         guiState.multiPoseDetection.maxPoseDetections,
-    //         guiState.multiPoseDetection.minPartConfidence,
-    //         guiState.multiPoseDetection.nmsRadius);
-
-    //     minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
-    //     minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
-    //     break;
-    // }
 
     ctx.clearRect(0, 0, videoWidth, videoHeight);
 
@@ -180,24 +134,7 @@ function detectPoseInRealTime(video, net) {
     // For each pose (i.e. person) detected in an image, loop through the poses
     // and draw the resulting skeleton and keypoints if over certain confidence
     // scores
-    let str = ""
-    // poses.forEach((score, keypoints) => {
-    //   keypoints.forEach((kp) => {
-    //     str = str.concat(kp.toString() + "\n")
-    //   })
-    // })
-    document.getElementById('0_x').innerHTML = "nose X HERE"
     poses.forEach(({score, keypoints}) => {
-
-      // let i = 0
-      // let i_str = i.toString()
-      // let x = i_str + "_x"
-      // let y = i_str + "_y"
-      // let s = i_str + "_score"
-      // document.getElementById(x).innerHTML = Number.parseFloat(keypoints[0].position.x).toFixed(2)
-      // document.getElementById(y).innerHTML = Number.parseFloat(keypoints[0].position.y).toFixed(2)
-      // document.getElementById(s).innerHTML = Number.parseFloat(keypoints[0].score).toFixed(4)
-
       for (let i=0; i < keypoints.length; i++) {
         let i_str = i.toString()
         let x = i_str + "_x"
