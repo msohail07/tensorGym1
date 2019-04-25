@@ -1,7 +1,7 @@
 // import * as utils from './utils.js'
 import {drawKeypoints, drawSkeleton} from './utils.js'
-import {poorFormFeedback, neutralFormFeedback} from './feedbackScripts.js'
-// import {getRadioVal} from './utils.js'
+// import {poorFormFeedback, neutralFormFeedback} from './feedbackScripts.js'
+import {getRadioVal} from './utils.js'
 
 var imageScaleFactor = 0.5; // A number between 0.2 and 1.0. Defaults to 0.50. What to scale the image by before feeding it through the network. Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.
 var outputStride = 16; //  the desired stride for the outputs when feeding the image through the model. Must be 32, 16, 8. Defaults to 16. The higher the number, the faster the performance but slower the accuracy, and visa versa.
@@ -34,23 +34,8 @@ function isMobile() {
   return isAndroid() || isiOS();
 }
 
-function getRadioVal(form, name) {
-  var val;
-  // get list of radio buttons with specified name
-  var radios = form.elements[name];
-
-  // loop through list of radio buttons
-  for (var i=0, len=radios.length; i<len; i++) {
-      if ( radios[i].checked ) { // radio checked?
-          val = radios[i].value; // if so, hold its value in val
-          break; // and break out of for loop
-      }
-  }
-  return val; // return value of checked radio or undefined if none checked
-}
-
-poorFormFeedback()
-neutralFormFeedback()
+// poorFormFeedback()
+// neutralFormFeedback()
 
 /**
  * Loads camera to be used in the demo
@@ -92,7 +77,6 @@ async function loadVideo() {
 }
 
 const guiState = {
-  // algorithm: 'multi-pose',
   input: {
     mobileNetArchitecture: isMobile() ? '0.50' : '0.75',
     outputStride: 16,
@@ -108,7 +92,6 @@ const guiState = {
     showPoints: true,
     showBoundingBox: false,
   },
-  net: null,
 };
 
 
@@ -127,19 +110,16 @@ function detectPoseInRealTime(video, net) {
 
   async function poseDetectionFrame() {
 
-    console.log(getRadioVal(document.getElementById('exerciseForm'), 'exercise'))
+    // console.log(getRadioVal(document.getElementById('exerciseForm'), 'exercise'))
 
     // Scale an image down to a certain factor. Too large of an image will slow
     // down the GPU
     const imageScaleFactor = guiState.input.imageScaleFactor;
     const outputStride = +guiState.input.outputStride;
 
-    let poses = [];
     let minPoseConfidence;
     let minPartConfidence;
-    const pose = await net.estimateSinglePose(
-      video, imageScaleFactor, flipHorizontal, outputStride);
-    poses.push(pose);
+    const pose = await net.estimateSinglePose(video, imageScaleFactor, flipHorizontal, outputStride);
 
     minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
     minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
@@ -154,30 +134,27 @@ function detectPoseInRealTime(video, net) {
       ctx.restore();
     }
 
-    // For each pose (i.e. person) detected in an image, loop through the poses
-    // and draw the resulting skeleton and keypoints if over certain confidence
-    // scores
-    poses.forEach(({score, keypoints}) => {
-      for (let i=0; i < keypoints.length; i++) {
-        let i_str = i.toString()
-        let x = i_str + "_x"
-        let y = i_str + "_y"
-        let s = i_str + "_score"
-        document.getElementById(x).innerHTML = Number.parseFloat(keypoints[i].position.x).toFixed(2)
-        document.getElementById(y).innerHTML = Number.parseFloat(keypoints[i].position.y).toFixed(2)
-        document.getElementById(s).innerHTML = Number.parseFloat(keypoints[i].score).toFixed(4)
-      }
+    let score = pose.score
+    let keypoints = pose.keypoints
 
-      if (score >= minPoseConfidence) {
-        if (guiState.output.showPoints) {
-          drawKeypoints(keypoints, minPartConfidence, ctx);
-        }
-        if (guiState.output.showSkeleton) {
-          drawSkeleton(keypoints, minPartConfidence, ctx);
-        }
-      }
+    for (let i=0; i < keypoints.length; i++) {
+      let i_str = i.toString()
+      let x = i_str + "_x"
+      let y = i_str + "_y"
+      let s = i_str + "_score"
+      document.getElementById(x).innerHTML = Number.parseFloat(keypoints[i].position.x).toFixed(2)
+      document.getElementById(y).innerHTML = Number.parseFloat(keypoints[i].position.y).toFixed(2)
+      document.getElementById(s).innerHTML = Number.parseFloat(keypoints[i].score).toFixed(4)
+    }
 
-    });
+    if (score >= minPoseConfidence) {
+      if (guiState.output.showPoints) {
+        drawKeypoints(keypoints, minPartConfidence, ctx);
+      }
+      if (guiState.output.showSkeleton) {
+        drawSkeleton(keypoints, minPartConfidence, ctx);
+      }
+    }
 
     requestAnimationFrame(poseDetectionFrame);
   }
