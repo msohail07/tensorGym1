@@ -1,3 +1,5 @@
+
+
 const color = 'greenyellow';
 const lineWidth = 2;
 
@@ -19,6 +21,29 @@ export function getRadioVal(form, name) {
     }
     return val; // return value of checked radio or undefined if none checked
 }
+
+export function getExerciseFunction(exercise) {
+    switch(e) {
+        case 'squat':
+            return
+    }
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
+
+  export function getUrlParam(parameter, defaultvalue){
+    var urlparameter = defaultvalue;
+    if(window.location.href.indexOf(parameter) > -1){
+        urlparameter = getUrlVars()[parameter];
+        }
+    return urlparameter;
+  }
 
 export function drawPoint(ctx, y, x, r, color) {
   ctx.beginPath();

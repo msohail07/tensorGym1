@@ -1,5 +1,5 @@
 // import * as utils from './utils.js'
-import {drawKeypoints, drawSkeleton} from './utils.js'
+import {drawKeypoints, drawSkeleton, getUrlParam} from './utils.js'
 // import {poorFormFeedback, neutralFormFeedback} from './feedbackScripts.js'
 import {getRadioVal} from './utils.js'
 
@@ -17,10 +17,14 @@ function playSound() {
   document.getElementById('buzzer').play()
 }
 
+console.log(getUrlParam('exercise', null))
+
 var bb = document.getElementById("buzzerButton")
 
 bb.addEventListener('click', playSound)
 //
+
+// document.getElementById('exerciseForm').addEventListener('submit', () => {console.log("SUBMIT!!!!!")})
 
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
@@ -95,6 +99,8 @@ const guiState = {
 };
 
 
+
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -110,7 +116,8 @@ function detectPoseInRealTime(video, net) {
 
   async function poseDetectionFrame() {
 
-    // console.log(getRadioVal(document.getElementById('exerciseForm'), 'exercise'))
+    var ex = getRadioVal(document.getElementById('exerciseForm'), 'exercise')
+    // var exFunc = getExerciseFunction(ex)
 
     // Scale an image down to a certain factor. Too large of an image will slow
     // down the GPU
@@ -171,6 +178,11 @@ async function bindPage() {
   // Load the PoseNet model weights with architecture 0.75
   const net = await posenet.load(0.75);
 
+  // var timer = setInterval(() => {
+  //   let ex = getRadioVal(document.getElementById('exerciseForm'), 'exercise') != null
+  //   if (ex) {clearInterval(timer)}
+  // }, 200)
+
   document.getElementById('loading').style.display = 'none';
   document.getElementById('main').style.display = 'block';
 
@@ -185,6 +197,7 @@ async function bindPage() {
     info.style.display = 'block';
     throw e;
   }
+
 
   detectPoseInRealTime(video, net);
 }
