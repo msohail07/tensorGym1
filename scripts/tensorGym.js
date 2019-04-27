@@ -88,7 +88,7 @@ const guiState = {
   },
   singlePoseDetection: {
     minPoseConfidence: 0.1, // entire pose confidence score
-    minPartConfidence: 0.5, // keypoint confidence score
+    minPartConfidence: 0.7, // keypoint confidence score
   },
   output: {
     showVideo: true,
@@ -97,8 +97,6 @@ const guiState = {
     showBoundingBox: false,
   },
 };
-
-
 
 
 /**
@@ -127,6 +125,9 @@ function detectPoseInRealTime(video, net) {
     let minPoseConfidence;
     let minPartConfidence;
     const pose = await net.estimateSinglePose(video, imageScaleFactor, flipHorizontal, outputStride);
+    // pose now consists of a pose confidence score and array of keypoints with (x, y, keypoint score)
+
+    // pass this pose into exercise/__exercise__.js
 
     minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
     minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
@@ -155,6 +156,7 @@ function detectPoseInRealTime(video, net) {
     }
 
     if (score >= minPoseConfidence) {
+      // pass keypoints to *exercise*.js
       if (guiState.output.showPoints) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
       }
