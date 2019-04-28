@@ -1,30 +1,21 @@
 // import * as utils from './utils.js'
 import {drawKeypoints, drawSkeleton, getUrlParam} from './utils.js'
-// import {poorFormFeedback, neutralFormFeedback} from './feedbackScripts.js'
+import {playSound} from './feedbackScripts.js'
 import {getRadioVal} from './utils.js'
+import {checkSquat} from './exercise/squat.js'
 
 var imageScaleFactor = 0.5; // A number between 0.2 and 1.0. Defaults to 0.50. What to scale the image by before feeding it through the network. Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.
 var outputStride = 16; //  the desired stride for the outputs when feeding the image through the model. Must be 32, 16, 8. Defaults to 16. The higher the number, the faster the performance but slower the accuracy, and visa versa.
 var flipHorizontal = false; // Defaults to false. If the poses should be flipped/mirrored horizontally. This should be set to true for videos where the video is by default flipped horizontally (i.e. a webcam), and you want the poses to be returned in the proper orientation.
+var isStartingPoint = true;
 
 const videoWidth = 800;
 const videoHeight = 700;
 
-// posenet.load().then((net) => console.log(net))
-
-// playSound() if exercise is done incorrectly
-function playSound() {
-  document.getElementById('buzzer').play()
-}
-
-console.log(getUrlParam('exercise', null))
+// console.log(getUrlParam('exercise', null))
 
 var bb = document.getElementById("buzzerButton")
-
 bb.addEventListener('click', playSound)
-//
-
-// document.getElementById('exerciseForm').addEventListener('submit', () => {console.log("SUBMIT!!!!!")})
 
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
@@ -98,6 +89,7 @@ const guiState = {
   },
 };
 
+// var isStartingPoint = true;
 
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
@@ -108,12 +100,17 @@ function detectPoseInRealTime(video, net) {
   const ctx = canvas.getContext('2d');
   // since images are being fed from a webcam
   const flipHorizontal = true;
+  // var isStartingPoint = true;
+
 
   canvas.width = videoWidth;
   canvas.height = videoHeight;
 
+  console.log("IN detectPoseInRealTime --> isStartingPoint value => " + isStartingPoint)
+
   async function poseDetectionFrame() {
 
+    // var isStartingPoint = true;
     var ex = getRadioVal(document.getElementById('exerciseForm'), 'exercise')
     // var exFunc = getExerciseFunction(ex)
 
@@ -156,7 +153,9 @@ function detectPoseInRealTime(video, net) {
     }
 
     if (score >= minPoseConfidence) {
+      console.log("IN async function poseDetectionFrame()    --> isStartingPoint value => " + isStartingPoint)
       // pass keypoints to *exercise*.js
+      isStartingPoint = checkSquat(keypoints, isStartingPoint)
       if (guiState.output.showPoints) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
       }
@@ -165,6 +164,7 @@ function detectPoseInRealTime(video, net) {
       }
     }
 
+    // isStartingPoint = false;
     requestAnimationFrame(poseDetectionFrame);
   }
 
