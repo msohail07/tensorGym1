@@ -1,11 +1,12 @@
-import {playSound, poorFormFeedback, neutralFormFeedback} from '../feedbackScripts.js'
+import {playSound, poorFormFeedback, neutralFormFeedback, updateReps} from '../feedbackScripts.js'
 
 var initialPointX
 var initialPointY
+var repCount
 
 /**
  * QUESTIONS:
- *  1) how to determine a 'rep'...
+ *  1) how to determine a 'rep'... will call updateReps(repCount)
  */
 export function checkSquat(keypoints, isStartingPoint) {
 
@@ -17,6 +18,7 @@ export function checkSquat(keypoints, isStartingPoint) {
 
     console.log("isStartingPoint")
     console.log(isStartingPoint)
+    neutralFormFeedback()
 
 
     if (isStartingPoint) {
@@ -34,5 +36,5 @@ export function checkSquat(keypoints, isStartingPoint) {
         console.log("POOR FORM DETECTED!!!!!!!!!!!")
     }
 
-    return false; //change value of isStartingPoint in tensorGym.js/poseDetectionFrame()
+    return false; //set isStartingPoint in tensorGym.js/poseDetectionFrame() to false
 }

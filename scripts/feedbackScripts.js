@@ -15,3 +15,7 @@ export function neutralFormFeedback() {
 export function playSound() {
     document.getElementById('buzzer').play()
 }
+
+export function updateReps(i) {
+    document.getElementById("reps").innerHTML = i
+}

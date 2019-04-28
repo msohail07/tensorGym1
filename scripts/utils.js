@@ -1,3 +1,5 @@
+import {checkSquat} from './exercise/squat.js'
+
 const color = 'greenyellow';
 const lineWidth = 2;
 
@@ -22,9 +24,9 @@ export function getRadioVal(form, name) {
 
 
 export function getExerciseFunction(exercise) {
-    switch(e) {
+    switch(exercise) {
         case 'squat':
-            return
+            return checkSquat
     }
 }
 

@@ -1,5 +1,5 @@
 // import * as utils from './utils.js'
-import {drawKeypoints, drawSkeleton, getUrlParam} from './utils.js'
+import {drawKeypoints, drawSkeleton, getUrlParam, getExerciseFunction} from './utils.js'
 import {playSound} from './feedbackScripts.js'
 import {getRadioVal} from './utils.js'
 import {checkSquat} from './exercise/squat.js'
@@ -155,7 +155,10 @@ function detectPoseInRealTime(video, net) {
     if (score >= minPoseConfidence) {
       console.log("IN async function poseDetectionFrame()    --> isStartingPoint value => " + isStartingPoint)
       // pass keypoints to *exercise*.js
-      isStartingPoint = checkSquat(keypoints, isStartingPoint)
+      var exercise = getExerciseFunction(getUrlParam('exercise', null))
+      if (exercise) {
+        isStartingPoint = exercise(keypoints, isStartingPoint)
+      }
       if (guiState.output.showPoints) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
       }
