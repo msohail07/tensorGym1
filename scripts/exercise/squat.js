@@ -26,7 +26,6 @@ export function checkSquat(keypoints, isStartingPoint) {
 
     console.log("TESTING CONSOLE>LOG: " + initialPointX + ", " + initialPointY)
 
-
     if (keypoints[0].position.x - initialPointX > 200) {
         console.log("INITIAL: " + initialPointX + ", " + initialPointY)
         console.log("PLAYING SOUND: " + keypoints[0].position.x + ", " + keypoints[0].position.y)
