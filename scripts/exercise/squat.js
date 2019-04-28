@@ -16,6 +16,14 @@ export function checkSquat(keypoints, isStartingPoint) {
             // if (extension point is outside of good exercise range) then indicate bad exercise (play sound and flash red)
             // otherwise, start process again at the initalization point of next rep.
 
+    document.getElementById("exerciseInfo").innerHTML =
+        " <p>Exercise information: </p> \
+        <ul> \
+        <li>Stand sideways to the camera</li> \
+        <li>Keep heels on the floor</li> \
+        <li>Keep back straight</li> \
+        </ul>"
+
     console.log("isStartingPoint")
     console.log(isStartingPoint)
     neutralFormFeedback()

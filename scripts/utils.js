@@ -1,4 +1,6 @@
 import {checkSquat} from './exercise/squat.js'
+import {checkPlank} from './exercise/plank.js'
+
 
 const color = 'greenyellow';
 const lineWidth = 2;
@@ -22,11 +24,12 @@ export function getRadioVal(form, name) {
     return val; // return value of checked radio or undefined if none checked
 }
 
-
 export function getExerciseFunction(exercise) {
     switch(exercise) {
         case 'squat':
             return checkSquat
+        case 'plank':
+            return checkPlank
     }
 }
 
