@@ -22,6 +22,7 @@ export function checkSquat(keypoints, isStartingPoint) {
         <li>Stand sideways to the camera</li> \
         <li>Keep heels on the floor</li> \
         <li>Keep back straight</li> \
+        <li><a href='https://www.youtube.com/watch?v=R1v152b72lo'>Tutorial Video</a></li> \
         </ul>"
 
     console.log("isStartingPoint")

@@ -16,8 +16,8 @@ export function checkPlank(keypoints, isStartingPoint) {
             // if (extension point is outside of good exercise range) then indicate bad exercise (play sound and flash red)
             // otherwise, start process again at the initalization point of next rep.
 
-    console.log("isStartingPoint")
-    console.log(isStartingPoint)
+    // console.log("isStartingPoint")
+    // console.log(isStartingPoint)
     neutralFormFeedback()
 
 
@@ -29,11 +29,11 @@ export function checkPlank(keypoints, isStartingPoint) {
     console.log("TESTING CONSOLE>LOG: " + initialPointX + ", " + initialPointY)
 
     if (keypoints[0].position.x - initialPointX < -100) {
-        console.log("INITIAL: " + initialPointX + ", " + initialPointY)
-        console.log("PLAYING SOUND: " + keypoints[0].position.x + ", " + keypoints[0].position.y)
+        // console.log("INITIAL: " + initialPointX + ", " + initialPointY)
+        // console.log("PLAYING SOUND: " + keypoints[0].position.x + ", " + keypoints[0].position.y)
         playSound()
         poorFormFeedback()
-        console.log("POOR FORM DETECTED!!!!!!!!!!!")
+        // console.log("POOR FORM DETECTED!!!!!!!!!!!")
     }
 
     return false; //set isStartingPoint in tensorGym.js/poseDetectionFrame() to false

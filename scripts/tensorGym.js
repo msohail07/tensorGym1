@@ -89,7 +89,16 @@ const guiState = {
   },
 };
 
-// var isStartingPoint = true;
+// function countDownTimer(time, countDownID) {
+//   var countDownElem = document.getElementById(countDownID)
+//   var countdown = setInterval(function () {
+//     countDownElem.style.display = countDownElem.style.display === 'none' ? '' : 'none';
+//     countDownElem.innerHTML = time
+//     if (--time == 0) {
+//       resolve()
+//     }
+//   }, 1000);
+// }
 
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
@@ -153,11 +162,32 @@ function detectPoseInRealTime(video, net) {
     }
 
     if (score >= minPoseConfidence) {
-      console.log("IN async function poseDetectionFrame()    --> isStartingPoint value => " + isStartingPoint)
-      // pass keypoints to *exercise*.js
+      // console.log("IN async function poseDetectionFrame()    --> isStartingPoint value => " + isStartingPoint)
       var exercise = getExerciseFunction(getUrlParam('exercise', null))
       if (exercise) {
-        isStartingPoint = exercise(keypoints, isStartingPoint)
+        // countdown timer
+        if (isStartingPoint) {
+          var countdown = new Promise((resolve) => {
+            var countDownElem = document.getElementById('timer')
+            var time = 5
+            countDownElem.style.display = countDownElem.style.display === 'none' ? '' : 'none';
+            var interval = setInterval(function () {
+              document.getElementById('countdown').innerHTML = time
+              if (time-- == 0) {
+                clearInterval(interval)
+                resolve()
+              }
+            }, 1000);
+          })
+
+          countdown.then(() => {
+            isStartingPoint = exercise(keypoints, isStartingPoint)
+          })
+        } else {
+          isStartingPoint = exercise(keypoints, isStartingPoint)
+
+        }
+        // isStartingPoint = exercise(keypoints, isStartingPoint)
       }
       if (guiState.output.showPoints) {
         drawKeypoints(keypoints, minPartConfidence, ctx);
