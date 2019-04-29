@@ -9,14 +9,14 @@
 
   <body>
     <p id="exerciseInfo"></p>
-    <div id='timer' style="display: none">
-      <p id='countdownLine'>Exercise starting in: <span id="countdown"></span> seconds</p>
-    </div>
-    <div id="main">
-      <!-- <video autoplay="false" id="video">
+    <p id='countDownLine'></p>
+    <canvas id="feedback"></canvas>
+    <!-- <p id='ready' style="display: none;"><strong>READY</strong></p>
+    <p id='set' style="display: none;"><strong>SET</strong></p>
+    <p id='go' style="display: none;"><strong>GO!!!</strong></p> -->
 
-      </video> -->
-      <div id="info" style='display:none'></div>
+    <div id="main">
+      <!-- <div id="info" style='display:none'></div> -->
       <div id="loading">
           Please select an exercise below.
       </div>
@@ -33,9 +33,6 @@
 
     <p>Reps = <span id="reps"></span></p>
 
-    <canvas id="feedback"></canvas>
-
-
     <div>
       <audio id='buzzer'>
         <source src='sounds/buzzer.mp3' type='audio/mpeg'>
@@ -43,7 +40,6 @@
       </audio>
     </div>
 
-    <p>Select workout</p>
     <form class="exerciseForm" id="exerciseForm">
 
       <p>Select an exercise:</p>

@@ -2,7 +2,6 @@
 import {drawKeypoints, drawSkeleton, getUrlParam, getExerciseFunction} from './utils.js'
 import {playSound} from './feedbackScripts.js'
 import {getRadioVal} from './utils.js'
-import {checkSquat} from './exercise/squat.js'
 
 var imageScaleFactor = 0.5; // A number between 0.2 and 1.0. Defaults to 0.50. What to scale the image by before feeding it through the network. Set this number lower to scale down the image and increase the speed when feeding through the network at the cost of accuracy.
 var outputStride = 16; //  the desired stride for the outputs when feeding the image through the model. Must be 32, 16, 8. Defaults to 16. The higher the number, the faster the performance but slower the accuracy, and visa versa.
@@ -167,23 +166,36 @@ function detectPoseInRealTime(video, net) {
       if (exercise) {
         // countdown timer
         if (isStartingPoint) {
-          var countdown = new Promise((resolve) => {
-            var countDownElem = document.getElementById('timer')
-            var time = 5
-            countDownElem.style.display = countDownElem.style.display === 'none' ? '' : 'none';
-            var interval = setInterval(function () {
-              document.getElementById('countdown').innerHTML = time
-              if (time-- == 0) {
-                clearInterval(interval)
-                resolve()
-              }
-            }, 1000);
-          })
+          console.log('IN exercise->isStartingPoint true case')
+          // var countdown = new Promise((resolve) => {
+          //   var countDownElem = document.getElementById('timer')
+          //   var time = 5
+          //   // countDownElem.style.display = 'countDownElem.style.display === 'none' ? '' : 'none';'
+          //   countDownElem.style.display = 'inline'
+          //   var interval = setInterval(function () {
+          //     document.getElementById('countdown').innerHTML = time
+          //     if (time-- == 0) {
+          //       clearInterval(interval)
+          //       resolve()
+          //     }
+          //   }, 1000);
+          // })
 
-          countdown.then(() => {
+          var countdown = new Promise((resolve) => {
+            document.getElementById('countDownLine').innerHTML = "<strong>READY</strong>"
+            setTimeout(() => {
+              document.getElementById('countDownLine').innerHTML = "<strong>SET</strong>"
+            }, 1500)
+            setTimeout(() => {
+              resolve()
+            }, 3000)
+          })
+          .then((val) => {
+            document.getElementById('countDownLine').innerHTML = "<strong>GO!!!</strong>"
             isStartingPoint = exercise(keypoints, isStartingPoint)
           })
         } else {
+          console.log('IN exercise->isStartingPoint FALSE case')
           isStartingPoint = exercise(keypoints, isStartingPoint)
 
         }
