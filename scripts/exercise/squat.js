@@ -38,7 +38,7 @@ export function checkSquat(keypoints, isStartingPoint) {
     // primaryHipPoint.y - primaryKneePoint.y > 100px
 
     // knees are dropping downwards
-    if (currKneePoint.position.y - initialKneePoint.position.y > 50) {
+    if (currKneePoint.position.y - initialKneePoint.position.y > 30) {
         console.log("KNEES ARE DROPPING!!!")
         console.log(currKneePoint)
         console.log(initialHipPoint)
