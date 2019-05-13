@@ -1,4 +1,4 @@
-# tensorGym1
+# tensorGym
 
 Check it out: https://msohail07.github.io/tg
 
